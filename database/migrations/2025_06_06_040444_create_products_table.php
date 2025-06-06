@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_ppn')->default(false);
             $table->boolean('is_popular')->default(false);
             $table->string('thumbnail')->nullable();
-            $table->string('unit_id')->unsigned();
+            $table->integer('unit_id')->unsigned();
             $table->integer('category_id')->unsigned()->nullable();
             $table->integer('brand_id')->unsigned()->nullable();
 
