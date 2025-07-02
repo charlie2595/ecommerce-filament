@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 12, 2);
             $table->integer('quantity')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->boolean('is_ppn')->default(false);
             $table->boolean('is_popular')->default(false);
             $table->string('thumbnail')->nullable();

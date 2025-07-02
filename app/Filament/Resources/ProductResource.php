@@ -122,10 +122,10 @@ class ProductResource extends Resource
                         ->required()
                         ->image(),
 
-                    Repeater::make('photos')
-                        ->relationship('photos') // relasi HasMany
+                    Repeater::make('images')
+                        ->relationship('images') // relasi HasMany
                         ->schema([
-                            FileUpload::make('photo') // kolom di tabel relasi 'photos'
+                            FileUpload::make('image') // kolom di tabel relasi 'image'
                                 ->image()
                                 ->imagePreviewHeight('150')
                                 ->required()

@@ -6,9 +6,12 @@ use App\Filament\Resources\BrandResource\Pages;
 use App\Filament\Resources\BrandResource\RelationManagers;
 use App\Models\Brand;
 use Filament\Forms;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,11 +26,16 @@ class BrandResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                ->required(),
-                Forms\Components\FileUpload::make('image')
-                ->image()
-                ->required(),
+                Group::make()->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->required(),
+                    Toggle::make('is_active')
+                        ->default(true)
+                        ->required(),
+                    Forms\Components\FileUpload::make('image')
+                        ->image()
+                        ->required()
+                ])->columnSpan(2)
             ]);
     }
 
@@ -39,6 +47,8 @@ class BrandResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
                 ->circular(),
+                ToggleColumn::make('is_active')
+                    ->default(true),
             ])
             ->filters([
                 //

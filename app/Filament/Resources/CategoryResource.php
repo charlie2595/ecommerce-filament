@@ -6,9 +6,12 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -24,11 +27,16 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                ->required(),
-                Forms\Components\FileUpload::make('image')
-                ->image()
-                ->required(),
+                Group::make()->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->required(),
+                    Toggle::make('is_active')
+                        ->default(true)
+                        ->required(),
+                    Forms\Components\FileUpload::make('image')
+                        ->image()
+                        ->required()
+                ])->columnSpan(2)
             ]);
     }
 
@@ -39,7 +47,9 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
-                ->circular(),
+                    ->circular(),
+                ToggleColumn::make('is_active')
+                    ->default(true),
             ])
             ->filters([
                 //
