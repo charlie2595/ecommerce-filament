@@ -77,4 +77,7 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    'aliases' => [
+        'GeneralHelper'     => App\Helpers\GeneralHelper::class,
+    ],
 ];

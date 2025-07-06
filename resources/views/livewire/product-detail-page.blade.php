@@ -10,10 +10,12 @@
                         </div>
                         <div class="flex-wrap hidden md:flex ">
 
-                            @foreach($product->images as $image)
-                            <div class="w-1/2 p-2 sm:w-1/4" x-on:click="mainImage='{{ url('storage', $image->image) }}'">
-                                <img src="{{ url('storage', $image->image) }}" alt="{{ $product->name }}" class="object-cover w-full lg:h-20 cursor-pointer hover:border hover:border-blue-500">
-                            </div>
+                            @foreach(json_decode($product->images, true) as $images)
+                                @foreach($images['image'] as $image)
+                                <div class="w-1/2 p-2 sm:w-1/4" x-on:click="mainImage='{{ url('storage/' . $image) }}'">
+                                    <img src="{{ url('storage/' . $image) }}" alt="{{ $product->name }}" class="object-cover w-full lg:h-20 cursor-pointer hover:border hover:border-blue-500">
+                                </div>
+                                @endforeach
                             @endforeach
 
                         </div>
@@ -37,7 +39,7 @@
                                 {{ $product->name }}    
                             </h2>
                             <p class="inline-block mb-6 text-4xl font-bold text-gray-700 dark:text-gray-400 ">
-                                <span>{{ Number::currency($product->price, 'IDR') }}</span>
+                                <span>{{ GeneralHelper::currencyFormatter($product->price) }}</span>
                                 {{-- <span class="text-base font-normal text-gray-500 line-through dark:text-gray-400">{{ Number::currency($product->price, 'IDR') }}</span> --}}
                             </p>
                             <p class="max-w-md text-gray-700 dark:text-gray-400">

@@ -10,7 +10,11 @@ class ProductImage extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'photo',
+        'image',
         'product_id'
+    ];
+
+    protected $casts = [
+        'image' => 'array',
     ];
 }

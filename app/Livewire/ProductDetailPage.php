@@ -14,26 +14,29 @@ use Livewire\Component;
 class ProductDetailPage extends Component
 {
     use HasAlerts;
-    
+
     public $slug;
     public $quantity = 1;
-    
+
     public function mount($slug)
     {
         $this->slug = $slug;
     }
 
-    public function increaseQty() {
+    public function increaseQty()
+    {
         $this->quantity++;
     }
 
-    public function decreaseQty() {
-        if($this->quantity > 1) {
+    public function decreaseQty()
+    {
+        if ($this->quantity > 1) {
             $this->quantity--;
         }
     }
 
-    public function addToCart($productId) {
+    public function addToCart($productId)
+    {
         $totalCount = CartManagement::addItemToCartWithQty($productId, $this->quantity);
 
         $this->dispatch('update-cart-count', ['total_count' => $totalCount])->to(Navbar::class);

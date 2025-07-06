@@ -55,11 +55,11 @@
                         <h2 class="text-2xl font-bold dark:text-gray-400">Price</h2>
                         <div class="w-16 pb-2 mb-6 border-b border-rose-600 dark:border-gray-400"></div>
                         <div>
-                            <div class="font-semibold text-white">{{ Number::currency($priceRange, 'IDR') }}</div>
+                            <div class="font-semibold text-white">{{ GeneralHelper::currencyFormatter($priceRange) }}</div>
                             <input type="range" wire:model.live="priceRange" class="w-full h-1 mb-4 bg-blue-100 rounded appearance-none cursor-pointer" max="100000000" value="300000" step="10000">
                             <div class="flex justify-between ">
-                                <span class="inline-block text-lg font-semibold text-blue-400 ">&#8377; {{ Number::currency(1000, 'IDR') }}</span>
-                                <span class="inline-block text-lg font-semibold text-blue-400 ">&#8377; {{ Number::currency(100000000, 'IDR') }}</span>
+                                <span class="inline-block text-lg font-semibold text-blue-400 ">{{ GeneralHelper::currencyFormatter(1000) }}</span>
+                                <span class="inline-block text-lg font-semibold text-blue-400 ">{{ GeneralHelper::currencyFormatter(100000000) }}</span>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                         </h3>
                                     </div>
                                     <p class="text-lg ">
-                                        <span class="text-green-600 dark:text-green-600">{{ Number::currency($product->price, 'IDR') }}</span>
+                                        <span class="text-green-600 dark:text-green-600">{{ GeneralHelper::currencyFormatter($product->price) }}</span>
                                     </p>
                                 </div>
                                 <div class="flex justify-center p-4 border-t border-gray-300 dark:border-gray-700">

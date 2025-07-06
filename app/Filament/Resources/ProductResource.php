@@ -33,6 +33,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends Resource
 {
@@ -77,11 +78,15 @@ class ProductResource extends Resource
                 ])->columnSpan(2),
 
                 Group::make()->schema([
-                    Section::make('Price')->schema([
+                    Section::make('Price & Stock')->schema([
                         TextInput::make('price')
                             ->required()
                             ->numeric()
                             ->prefix('IDR'),
+
+                        TextInput::make('quantity')
+                            ->required()
+                            ->numeric(),
                     ]),
 
                     Section::make('Associations')->schema([
@@ -123,16 +128,34 @@ class ProductResource extends Resource
                         ->image(),
 
                     Repeater::make('images')
-                        ->relationship('images') // relasi HasMany
+                        ->label('Product Images')
+                        ->relationship('images') // Relasi HasMany
                         ->schema([
-                            FileUpload::make('image') // kolom di tabel relasi 'image'
+                            FileUpload::make('image')
+                                ->label('Image')
+                                ->multiple()
                                 ->image()
                                 ->imagePreviewHeight('150')
+                                ->uploadingMessage('Uploading...')
+                                ->helperText('Upload multiple product images by dragging or clicking here')
                                 ->required()
+                                ->getUploadedFileNameForStorageUsing(function ($file, $record, $get) {
+                                    $sku = $get('../../sku') ?? Str::random(6);
+                                    $directory = 'product-images/'. $sku;
+                                    // Ambil semua file di folder
+                                    $files = Storage::disk('public')->files($directory);
+                                    // Hitung file yang sudah ada, +1 untuk file baru
+                                    $nextNumber = count($files) + 1;
+                                    // Ambil ekstensi file
+                                    $extension = $file->getClientOriginalExtension();
+                                    // Return nama file baru, misal: 1.jpg, 2.png, dst
+                                    return $directory . '/' . $nextNumber . '.' . $extension;
+                                }),
                         ])
                         ->reorderable()
                         ->collapsible()
                         ->defaultItems(1)
+                        ->columns(1)
                 ])->columns(2),
             ])->columns(3);
     }
