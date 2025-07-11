@@ -27,6 +27,18 @@ class CartPage extends Component
         $this->dispatch('update-cart-count', ['total_count' => $totalCount])->to(Navbar::class);
     }
 
+    public function incrementQuantity($productId)
+    {
+        $this->cartItems = CartManagement::incrementQuantityToCartItem($productId);
+        $this->grandTotal = CartManagement::calculateGrantTotal($this->cartItems);
+    }
+
+    public function decrementQuantity($productId)
+    {
+        $this->cartItems = CartManagement::decrementQuantityToCartItem($productId);
+        $this->grandTotal = CartManagement::calculateGrantTotal($this->cartItems);
+    }
+
     public function render()
     {
         return view('livewire.cart-page');

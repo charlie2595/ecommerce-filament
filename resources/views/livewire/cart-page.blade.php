@@ -26,9 +26,9 @@
                                     <td class="py-4">{{ GeneralHelper::currencyFormatter($cartItem['price']) }}</td>
                                     <td class="py-4">
                                         <div class="flex items-center">
-                                            <button class="border rounded-md py-2 px-4 mr-2">-</button>
+                                            <button wire:click="decrementQuantity('{{ $cartItem['productId'] }}')" class="border rounded-md py-2 px-4 mr-2 hover:bg-red-500">-</button>
                                             <span class="text-center w-8">{{ $cartItem['quantity'] }}</span>
-                                            <button class="border rounded-md py-2 px-4 ml-2">+</button>
+                                            <button wire:click="incrementQuantity('{{ $cartItem['productId'] }}')" class="border rounded-md py-2 px-4 ml-2 hover:bg-red-500">+</button>
                                         </div>
                                     </td>
                                     <td class="py-4">{{ GeneralHelper::currencyFormatter($cartItem['subtotal']) }}</td>
@@ -66,7 +66,7 @@
                         <span class="font-semibold">{{ GeneralHelper::currencyFormatter($grandTotal) }}</span>
                     </div>
                     @if($cartItems)
-                        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
+                        <a href="{{ route('checkout') }}" class="bg-blue-500 block text-center text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</a>
                     @endif
                 </div>
             </div>
